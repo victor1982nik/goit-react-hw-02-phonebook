@@ -5,12 +5,14 @@ import { Section } from "./Section/Section";
 
 export class App extends Component {
   state = {
-  contacts: [],
-  name: ''
+    contacts: [],
+    filter: '',
+    name: '',
+    number: ''
   }
 
-  handleChange = e => {
-    this.setState({ name: e.target.value });
+  handleChange = e => {    
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
@@ -21,21 +23,31 @@ export class App extends Component {
     //this.props.onSubmit({ ...this.state });
   };
 
-  handleClick = e => {
-    
-    const newEl = { id: nanoid(), name: this.state.name };    
+  handleClick = e => {    
+    const newEl = { id: nanoid(), name: this.state.name, number: this.state.number};    
     this.setState(prevState => {
       console.log({ contacts: [newEl, ...prevState.contacts] });
       return { contacts: [newEl, ...prevState.contacts] }
     })
   }
+
+  handleFilter = e => {
+    this.setState({ filter: e.target.value });   
+  }
+
+  filterContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+  }
   
   render() {    
-    const { contacts } = this.state;
+    const { contacts} = this.state;    
+    const filteredContacts = this.filterContacts();
     return (
       <div>
         <Section title="PhoneBook">
-          <Form onSubmit={this.handleSubmit}>           
+          <Form onSubmit={this.handleSubmit}>
             <label>
               Name
               <input
@@ -48,15 +60,42 @@ export class App extends Component {
                 onChange={this.handleChange}
               />
             </label>
+            <br />
+            <label>
+              Number
+              <input
+                type="tel"
+                name="number"
+                value={this.state.number}
+                pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+                required
+                onChange={this.handleChange}
+              />
+            </label>
             <p>
-              <Button type="submit" onClick={this.handleClick}>Add contact</Button>
+              <Button type="submit" onClick={this.handleClick}>
+                Add contact
+              </Button>
             </p>
           </Form>
         </Section>
-        
+
         <Section title="Contacts">
-          {contacts.length > 0 &&
-            <ul>{contacts.map(contact => <li>{contact.name}</li>)}</ul>}
+          {contacts.length > 0 && (
+            <>
+              <label>Find contacts by name
+                <input type="filter" name="filter" value={this.state.filter} onChange={this.handleFilter}/>
+              </label>
+              <ul>
+                {filteredContacts.map(contact => (
+                  <li key={nanoid()}>
+                    {contact.name} {contact.number}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </Section>
       </div>
     );
