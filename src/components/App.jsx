@@ -17,11 +17,20 @@ export class App extends Component {
       name: data.name,
       number: data.number,
     };
-    // Если есть в списке вывести предупреждение, если нет добавить
-    this.setState(prevState => {
-      //  console.log({ contacts: [newEl, ...prevState.contacts] });
-      return { contacts: [newEl, ...prevState.contacts] };
-    });
+    if (this.findContact(data.name)) {
+      window.alert(`${data.name} is already in contacts`);
+      return;
+    } else {
+      this.setState(prevState => {
+        //  console.log({ contacts: [newEl, ...prevState.contacts] });
+        return { contacts: [newEl, ...prevState.contacts] };
+      });
+    }
+  };
+
+  findContact = contactToFind => {
+    const { contacts } = this.state;
+    return contacts.find(contact => contact.name === contactToFind);
   };
 
   handleFilter = e => {
