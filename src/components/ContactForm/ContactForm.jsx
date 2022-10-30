@@ -41,12 +41,15 @@ export class ContactForm extends Component {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           onChange={this.handleChange}
         />
-        <p>
-          <Button type="submit" onClick={this.handleClick}>
-            Add contact
-          </Button>
-        </p>
+        <br />
+        <Button type="submit" onClick={this.handleClick}>
+          Add contact
+        </Button>
       </Form>
     );
   }
 }
+
+ContactForm.propTypes = {
+  onSubmit: PropTypes.func,
+};

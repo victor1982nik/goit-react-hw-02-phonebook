@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Input, Label } from 'components/Filter/Filter.styled';
 
 export function ContactElement({
   label,
@@ -10,9 +11,9 @@ export function ContactElement({
   onChange,
 }) {
   return (
-    <label>
-      {label}
-      <input
+    <>
+      <Label>{label}</Label>
+      <Input
         type={text}
         name={name}
         value={value}
@@ -21,6 +22,16 @@ export function ContactElement({
         required
         onChange={onChange}
       />
-    </label>
+    </>
   );
 }
+
+ContactElement.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  pattern: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+};
