@@ -4,7 +4,7 @@ import { Input, Label } from 'components/Filter/Filter.styled';
 export function ContactElement({
   label,
   name,
-  text,
+  type,
   value,
   pattern,
   title,
@@ -14,7 +14,7 @@ export function ContactElement({
     <>
       <Label>{label}</Label>
       <Input
-        type={text}
+        type={type}
         name={name}
         value={value}
         pattern={pattern}
@@ -29,7 +29,7 @@ export function ContactElement({
 ContactElement.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   pattern: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
